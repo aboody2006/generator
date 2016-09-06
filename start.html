@@ -1,0 +1,115 @@
+<html>
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+</head>
+<body>
+<form id="spinner" name="spinner" method="post">
+
+    <div class="form-row">
+        <select name="gender" id="gender" class="text form_input">
+            <option value="" selected="selected">Select one...</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+        </select>
+    </div>
+    <div id="gender_error" style="color: red;"></div>
+
+    <div class="form-row">
+        <input type="text" name="name" id="name" size="50" value="" class="text form_input" placeholder="Your name"
+               required/>
+    </div>
+    <div id="name_error" style="color: red;"></div>
+    <div class="form-row">
+        <input type="text" name="postitle" id="postitle" size="50" value="" class="text form_input"
+               placeholder="Position Title (ex.: Lead programmer)" required/>
+    </div>
+    <div id="postitle_error" style="color: red;"></div>
+    <div class="form-row">
+        <input type="text" name="posdescr" id="posdesc" size="50" value="" class="text form_input"
+               placeholder="Position Description (ex.: Programming)" required/>
+    </div>
+    <div id="posdesc_error" style="color: red;"></div>
+    <div class="form-row">
+        <input type="text" name="company" id="company" size="50" value="" class="text form_input"
+               placeholder="Company Name (ex.: Sony)" required/>
+    </div>
+    <div id="company_error" style="color: red;"></div>
+    <div class="form-row">
+        <input type="text" name="skills" id="skills" size="50" value="" class="text form_input"
+               placeholder="Skills (ex.: programming, php development)" required/>
+    </div>
+    <div id="skills_error" style="color: red;"></div>
+    <div class="form-row">
+        <input id="submit" name="submit"
+               style="background-color: #ccc;cursor: pointer;border: none;padding: 5px;border-radius: 5px;text-align: center;margin-top: 5px;"
+               value="Generate!" class="btn">
+    </div>
+</form>
+<div id="result">
+
+</div>
+<script>
+    $(document).ready(function () {
+
+
+        $("#submit").click(function () {
+            var pass = true;
+            if ($("#gender").val() == null || $("#gender").val() == '') {
+                pass = false;
+                $("#gender_error").html(" Gender is required ! ");
+            } else {
+                $("#gender_error").html("");
+            }
+            if ($("#name").val() == null || $("#name").val() == '') {
+                pass = false;
+                $("#name_error").html(" Name is required ! ");
+            } else {
+                $("#name_error").html("");
+            }
+            if ($("#postitle").val() == null || $("#postitle").val() == '') {
+                pass = false;
+                $("#postitle_error").html(" Position Title  is required ! ");
+            } else {
+                $("#postitle_error").html("");
+            }
+            if ($("#posdesc").val() == null || $("#posdesc").val() == '') {
+                pass = false;
+                $("#posdesc_error").html(" Position Description is required ! ");
+            } else {
+                $("#posdesc_error").html("");
+            }
+            if ($("#company").val() == null || $("#company").val() == '') {
+                pass = false;
+                $("#company_error").html(" Company Name  is required ! ");
+            } else {
+                $("#company_error").html("");
+            }
+            if ($("#skills").val() == null || $("#skills").val() == '') {
+                pass = false;
+                $("#skills_error").html(" Skills is required ! ");
+            } else {
+                $("#skills_error").html("");
+            }
+
+            if (pass!=false) {
+                $.ajax({//Process the form using $.ajax()
+                    type: 'POST', //Method type
+                    url: 'generator.php', //Your form processing file URL
+                    data: $("#spinner").serialize(),
+                    dataType: 'json',
+                    success: function (data) {
+
+                        $res = "";
+                        for (var i in data) {
+                            $res += "" + data[i] + " ";
+                        }
+                        $("#result").html($res);
+                    }
+                });
+            }
+        });
+    });
+
+</script>
+</body>
+</html>
